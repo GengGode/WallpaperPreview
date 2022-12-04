@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "WallpaperPreview.WinUI3 (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "WallpaperPreview.WinUI3 (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

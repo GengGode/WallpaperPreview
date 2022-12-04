@@ -21,7 +21,9 @@ namespace winrt::WallpaperPreview::implementation
 		// C++: winrt::Windows::UI::Xaml::Interop::IBindableObservableVector Images() { return m_images; }
 		winrt::Windows::UI::Xaml::Interop::IBindableObservableVector Images() { return m_images; }
 		winrt::Windows::UI::Xaml::Interop::IBindableObservableVector m_images;
-		
+		// C#: public async static Task<ImageFileInfo> LoadImageInfo(StorageFile file)
+		// C++: static IAsyncOperation<ImageFileInfo> LoadImageInfo(StorageFile file)
+
 		IAsyncAction MainWindow::GetItemsAsync()
 		{
 			StorageFolder appInstalledFolder = Package::Current().InstalledLocation();
@@ -31,8 +33,10 @@ namespace winrt::WallpaperPreview::implementation
 			// C++: auto result = picturesFolder.CreateFileQueryWithOptions(QueryOptions());
 			auto result = picturesFolder.CreateFileQueryWithOptions(QueryOptions());
 		
-			// C#: IReadOnlyList<StorageFile> imageFiles = await result.GetFilesAsync();
-			// C++: auto imageFiles = co_await result.GetFilesAsync();
+			// C#: private async Task GetItemsAsync()
+			// C++: IAsyncAction MainWindow::GetItemsAsync()
+
+			
 			auto imageFiles = co_await result.GetFilesAsync();
 		
 			for (auto imageFile : imageFiles)
@@ -45,15 +49,14 @@ namespace winrt::WallpaperPreview::implementation
 			ImageGridView().ItemsSource(Images());
 		}
 
-		static IAsyncOperation<ImageFileInfo> LoadImageInfo(StorageFile file)
+		IAsyncOperation<ImageFileInfo> LoadImageInfo(StorageFile file)
 		{
 			// C#: var properties = await file.Properties.GetImagePropertiesAsync();
 			// C++: auto properties = co_await file.Properties().GetImagePropertiesAsync();
 			auto properties = co_await file.Properties().GetImagePropertiesAsync();
 			// C#: ImageFileInfo info = new(properties, file, file.DisplayName, file.DisplayType);
 			// C++: auto info = winrt::make<ImageFileInfo>(properties, file, file.DisplayName(), file.DisplayType());
-			auto info = winrt::make<ImageFileInfo>(properties, file, file.DisplayName(), file.DisplayType());
-			
+			auto info = ImageFileInfo(properties, file, file.DisplayName(), file.DisplayType());
 			co_return info;
 		}
     };

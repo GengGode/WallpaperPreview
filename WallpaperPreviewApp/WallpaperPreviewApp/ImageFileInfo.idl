@@ -1,0 +1,20 @@
+namespace WallpaperPreviewApp
+{
+    [default_interface]
+    runtimeclass ImageFileInfo : Windows.UI.Xaml.Data.INotifyPropertyChanged
+    {
+        ImageFileInfo();
+	    Windows.UI.Xaml.Media.Imaging.BitmapImage ImageSource();
+        Windows.Storage.StorageFile ImageFile{ get; };
+        Windows.Storage.FileProperties.ImageProperties ImageProperties{ get; };
+        async Windows.Foundation.IAsyncOperation<Windows.UI.Xaml.Media.Imaging.BitmapImage> GetImageSourceAsync();
+        async Task<Windows.UI.Xaml.Media.Imaging.BitmapImage> GetImageThumbnailAsync();
+        String ImageName{ get; };
+        String ImageFileType{ get; };
+        String ImageDimensions();
+        String ImageTitle{get;set;};
+        Int32 ImageRating{ get; set; };
+        event PropertyChangedEventHandler PropertyChanged;
+        void OnPropertyChanged([CallerMemberName] string propertyName = null);
+    }
+}
